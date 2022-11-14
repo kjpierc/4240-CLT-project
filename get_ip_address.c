@@ -1,30 +1,69 @@
-/*
- * C Program to Get IP Address
- */
+// C program to display hostname
+// and IP address
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <netdb.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/ioctl.h>
 #include <netinet/in.h>
-#include <net/if.h>
-#include <unistd.h>
 #include <arpa/inet.h>
- 
+
+// Returns hostname for the local computer
+void checkHostName(int hostname)
+{
+	if (hostname == -1)
+	{
+		perror("gethostname");
+		exit(1);
+	}
+}
+
+// Returns host information corresponding to host name
+void checkHostEntry(struct hostent * hostentry)
+{
+	if (hostentry == NULL)
+	{
+		perror("gethostbyname");
+		exit(1);
+	}
+}
+
+// Converts space-delimited IPv4 addresses
+// to dotted-decimal format
+void checkIPbuffer(char *IPbuffer)
+{
+	if (NULL == IPbuffer)
+	{
+		perror("inet_ntoa");
+		exit(1);
+	}
+}
+
+// Driver code
 int main()
 {
-    int n;
-    struct ifreq ifr;
-    char array[] = "eth0";
- 
-    n = socket(AF_INET, SOCK_DGRAM, 0);
-    //Type of address to retrieve - IPv4 IP address
-    ifr.ifr_addr.sa_family = AF_INET;
-    //Copy the interface name in the ifreq structure
-    strncpy(ifr.ifr_name , array , IFNAMSIZ - 1);
-    ioctl(n, SIOCGIFADDR, &ifr);
-    close(n);
-    //display result
-    printf("IP Address is %s - %s\n" , array , inet_ntoa(( (struct sockaddr_in *)&ifr.ifr_addr )->sin_addr) );
-    return 0;
+	char hostbuffer[256];
+	char *IPbuffer;
+	struct hostent *host_entry;
+	int hostname;
+
+	// To retrieve hostname
+	hostname = gethostname(hostbuffer, sizeof(hostbuffer));
+	checkHostName(hostname);
+
+	// To retrieve host information
+	host_entry = gethostbyname(hostbuffer);
+	checkHostEntry(host_entry);
+
+	// To convert an Internet network
+	// address into ASCII string
+	IPbuffer = inet_ntoa(*((struct in_addr*)
+						host_entry->h_addr_list[0]));
+
+	printf("Hostname: %s\n", hostbuffer);
+	printf("Host IP: %s\n", IPbuffer);
+
+	return 0;
 }
