@@ -58,7 +58,7 @@ int main(void){
     while(userChoice != 'Q'){
         //ask user if they want to save to file 
         printf("Would you like to save the results of the network scan to a file? Please type 'Y' for yes and 'N' for no.\n");
-        scanf("%c", &printChoice);
+        scanf(" %c", &printChoice);
 
         //print out choice options for users to select 
         printf("\nWhat type of summary report would you like to generate?\n");
@@ -89,8 +89,8 @@ int main(void){
 
         printf("To quit the program, enter 'Q'\n\n");
 
-        printf("Enter choice: ");
-        scanf("%c", &userChoice);
+        printf("Enter choice: \n");
+        scanf(" %c", &userChoice);
 
         //do action of user choice
         switch(userChoice){
@@ -187,13 +187,13 @@ int main(void){
                 break;
             default:
                 printf("Invalid option entered. Please enter the correct option.\n");
-                scanf("%c", &userChoice)
+                scanf(" %c", &userChoice)
                 break;
         }
 
         //prompt to ask user if they would like to make another report
         printf("Would you like to generate another report? If you wish to quit enter 'Q', other wise press any key to continue\n");
-        scanf("%c", &userChoice);
+        scanf(" %c", &userChoice);
     }
 
     return 0;
