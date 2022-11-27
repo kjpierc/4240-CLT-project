@@ -85,7 +85,9 @@ int main(void){
 
         printf("- Verbose: This scan will produce an output with a hgiher verbosity level. \n");
         printf("      It will print information on the scan process. \n");
-        printf("      To use this mode, enter 'V'\n]n");
+        printf("      To use this mode, enter 'V'\n\n");
+
+        printf("To quit the program, enter 'Q'\n\n");
 
         printf("Enter choice: ");
         scanf("%c", &userChoice);
@@ -184,6 +186,8 @@ int main(void){
                 }
                 break;
             default:
+                printf("Invalid option entered. Please enter the correct option.\n");
+                scanf("%c", &userChoice)
                 break;
         }
 
